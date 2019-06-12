@@ -5,7 +5,7 @@
         <action_delete>false</action_delete>
         <action_insert>true</action_insert>
         <action_query>false</action_query>
-        <action_update>false</action_update>
+        <action_update>true</action_update>
         <active>true</active>
         <add_message>false</add_message>
         <advanced>true</advanced>
@@ -18,7 +18,7 @@
         <filter_condition/>
         <is_rest>false</is_rest>
         <message/>
-        <name>NeedIt When needed field date</name>
+        <name>NeedIt Due Earlier Than Today Using Util</name>
         <order>100</order>
         <priority>100</priority>
         <rest_method/>
@@ -29,7 +29,17 @@
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
 
-	// Add your code here
+	// Instantiate the NeedItUtils class. 
+	var niutils = new NeedItUtils();
+	// Call the isDatePast method and pass the u_when_needed value. 
+	var isPast = niutils.isDatePast(current.u_when_needed);
+	
+	// If the isDatePast method returns true, the date is in the past. 
+	
+	if ( isPast === true){
+		gs.addErrorMessage("The when needed date cannot be in the past. Please pick a date in the future and resubmit the form.");
+		current.setAbortAction(true);
+	}
 
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
@@ -38,15 +48,15 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>4d64e9eadb3133005c905385ca961981</sys_id>
-        <sys_mod_count>0</sys_mod_count>
-        <sys_name>NeedIt When needed field date</sys_name>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>NeedIt Due Earlier Than Today Using Util</sys_name>
         <sys_overrides/>
         <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
         <sys_policy/>
         <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
         <sys_update_name>sys_script_4d64e9eadb3133005c905385ca961981</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-06-05 16:56:54</sys_updated_on>
+        <sys_updated_on>2019-06-12 21:38:40</sys_updated_on>
         <template/>
         <when>before</when>
     </sys_script>
